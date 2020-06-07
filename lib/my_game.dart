@@ -34,7 +34,7 @@ class MyGame extends BaseGame {
     gameOver
         ? gameOverPainter.paint(
             canvas,
-            Offset(size.width / 5, size.height / 2),
+            Offset((size.width - gameOverPainter.width) / 2, (size.height - gameOverPainter.height) / 2),
           )
         : scorePainter.paint(
             canvas,
@@ -70,14 +70,12 @@ class MyGame extends BaseGame {
   }
 
   void startFiring(Offset position) {
-    print('Pew PEW PEW');
     touchPositionDx = position.dx;
     touchPositionDy = position.dy;
     isFiring = true;
   }
 
   void stopFiring() {
-    print('STOOOOOOOOOOP');
     isFiring = false;
   }
 }

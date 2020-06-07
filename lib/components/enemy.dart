@@ -29,13 +29,14 @@ class Enemy extends SpriteComponent {
       return false;
     }
 
-    bool destroy = y >= maxY + ENEMY_SIZE * 2;
+    bool destroy = y >= maxY + ENEMY_SIZE;
 
     // TODO: HABILITAR GAME OVER
-    /* if (destroy) {
-      gameOver = true;
+    if (destroy) {
+      /* gameOver = true; */
+
       return true;
-    } */
+    }
 
     return destroy;
   }

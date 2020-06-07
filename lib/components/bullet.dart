@@ -8,7 +8,6 @@ import 'package:spacepewpew/main.dart';
 
 class Bullet extends SpriteComponent {
   bool hitAnEnemy = false;
-  double maxY;
   List<Enemy> enemyList = <Enemy>[];
   List<Bullet> bulletList = <Bullet>[];
 
@@ -53,11 +52,12 @@ class Bullet extends SpriteComponent {
       return true;
     }
 
-    if (y == null || maxY == null) {
+    if (y == null) {
       return false;
     }
 
-    bool destroy = y >= maxY;
+    bool destroy = y < 0 - BULLET_SIZE;
+    print(y);
 
     return destroy;
   }
@@ -66,6 +66,5 @@ class Bullet extends SpriteComponent {
   void resize(Size size) {
     this.x = touchPositionDx - (BULLET_SIZE / 2);
     this.y = touchPositionDy - 80;
-    this.maxY = size.height;
   }
 }

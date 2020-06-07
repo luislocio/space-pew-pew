@@ -88,9 +88,9 @@ class MyGame extends BaseGame with TapDetector, HorizontalDragDetector {
   }
 
   @override
-  void onHorizontalDragDown(DragDownDetails details) {
+  void onHorizontalDragUpdate(DragUpdateDetails details) {
     startFiring(details.globalPosition);
-    super.onHorizontalDragDown(details);
+    super.onHorizontalDragUpdate(details);
   }
 
   @override
@@ -108,7 +108,10 @@ class MyGame extends BaseGame with TapDetector, HorizontalDragDetector {
   void startFiring(Offset position) {
     touchPositionDx = position.dx;
     touchPositionDy = position.dy;
-    isFiring = true;
+
+    if (!isFiring) {
+      isFiring = true;
+    }
   }
 
   void stopFiring() {

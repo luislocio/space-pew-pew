@@ -57,7 +57,6 @@ class Bullet extends SpriteComponent {
     }
 
     bool destroy = y < 0 - BULLET_SIZE;
-    print(y);
 
     return destroy;
   }

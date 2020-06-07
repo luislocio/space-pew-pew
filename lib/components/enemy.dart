@@ -1,7 +1,8 @@
 import 'dart:ui';
 
 import 'package:flame/components/component.dart';
-import 'package:galaxygame/main.dart';
+import 'package:flame/sprite.dart';
+import 'package:spacepewpew/main.dart';
 
 class Enemy extends SpriteComponent {
   Size dimensions;
@@ -10,11 +11,12 @@ class Enemy extends SpriteComponent {
   bool wasHit = false;
   double maxY;
 
-  Enemy(this.dimensions, this.xPosition) : super.rectangle(ENEMY_SIZE, ENEMY_SIZE, 'dragon1.png');
+  Enemy(this.dimensions, this.xPosition) : super.fromSprite(ENEMY_SIZE, ENEMY_SIZE, Sprite('dragon1.png'));
 
   @override
   void update(double t) {
     y += gameOver ? 0 : t * ENEMYSPEED;
+    super.update(t);
   }
 
   @override
@@ -29,18 +31,18 @@ class Enemy extends SpriteComponent {
 
     bool destroy = y >= maxY + ENEMY_SIZE * 2;
 
-    if (destroy) {
+    // TODO: HABILITAR GAME OVER
+    /* if (destroy) {
       gameOver = true;
-      print("Game Over");
       return true;
-    }
+    } */
 
     return destroy;
   }
 
   @override
   void resize(Size size) {
-    this.x = ENEMY_SIZE / xPosition;
+    this.x = xPosition.toDouble();
     this.y = ENEMY_SIZE * yPosition;
     this.maxY = size.height;
   }

@@ -1,16 +1,15 @@
 import 'package:flame/flame.dart';
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:galaxygame/components/bullet.dart';
-import 'package:galaxygame/components/enemy.dart';
-import 'package:galaxygame/my_game.dart';
+import 'package:spacepewpew/components/bullet.dart';
+import 'package:spacepewpew/components/enemy.dart';
+import 'package:spacepewpew/my_game.dart';
 
 bool gameOver = false;
 
 const ENEMYSPEED = 120.0;
-const BULLETSPEED = 60.0;
+const BULLETSPEED = 80.0;
 
-double enemyRepeat = 10;
+double enemyRepeat = 8;
 double bulletRepeat = 1.0;
 
 const ENEMY_SIZE = 40.0;
@@ -29,45 +28,28 @@ double touchPositionDx = 0.0;
 double touchPositionDy = 0.0;
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  Flame.util.fullScreen();
 
-  Flame.images
-      .loadAll(['fire.png', 'dragon1.png', 'dragon2.png', 'dragon3.png', 'dragon4.png', 'gun.png', 'bullet.png']);
+  Flame.images.loadAll([
+    'fire.png',
+    'dragon1.png',
+    'dragon2.png',
+    'dragon3.png',
+    'dragon4.png',
+    'gun.png',
+    'bullet.png',
+    'background.png',
+  ]);
 
   var dimensions = await Flame.util.initialDimensions();
   game = MyGame(dimensions);
 
   runApp(
     MaterialApp(
-      home: Scaffold(
-        body: Container(
-          decoration: BoxDecoration(
-            color: Colors.blueGrey,
-            image: DecorationImage(
-              image: AssetImage("assets/images/background.png"),
-              fit: BoxFit.cover,
-            ),
-          ),
-          child: GameWrapper(game),
-        ),
-      ),
+      theme: ThemeData(backgroundColor: Colors.blueGrey),
+      home: GameWrapper(game),
     ),
   );
-
-  Flame.util.addGestureRecognizer(HorizontalDragGestureRecognizer()
-    ..onUpdate = (startDetails) {
-      game.startFiring(startDetails.globalPosition);
-    }
-    ..onEnd = (endDetails) {
-      game.stopFiring();
-    });
-
-  Flame.util.addGestureRecognizer(TapGestureRecognizer()
-    ..onTapDown = (TapDownDetails evt) {
-      game.startFiring(evt.globalPosition);
-    }
-    ..onTap = () {
-      game.stopFiring();
-    });
 }
 
 class GameWrapper extends StatelessWidget {

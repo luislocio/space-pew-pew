@@ -1,19 +1,23 @@
 import 'dart:ui';
 
 import 'package:flame/components/component.dart';
-import 'package:galaxygame/main.dart';
+import 'package:flame/sprite.dart';
+
+import 'package:spacepewpew/main.dart';
 
 class Ship extends SpriteComponent {
+  Ship() : super.fromSprite(SHIP_SIZE, SHIP_SIZE, Sprite('gun.png'));
+
   @override
   void update(double t) {
-    if (t == 0) {
-      game.add(Ship());
-    }
+    this.x = touchPositionDx - (SHIP_SIZE / 2);
+    this.y = touchPositionDy - 80;
+    super.update(t);
   }
 
   @override
   void resize(Size size) {
-    this.x = touchPositionDx;
-    this.y = touchPositionDy;
+    this.x = size.width / 2;
+    this.y = size.height / 2;
   }
 }

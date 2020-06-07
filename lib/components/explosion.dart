@@ -1,6 +1,6 @@
 import 'package:flame/components/animation_component.dart';
-import 'package:galaxygame/components/enemy.dart';
-import 'package:galaxygame/main.dart';
+import 'package:spacepewpew/components/enemy.dart';
+import 'package:spacepewpew/main.dart';
 
 class Explosion extends AnimationComponent {
   static const TIME = 0.75;

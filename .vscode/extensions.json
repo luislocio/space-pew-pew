@@ -1,0 +1,12 @@
+{
+    "recommendations": [
+        "aaron-bond.better-comments",
+        "coenraads.bracket-pair-colorizer-2",
+        "dart-code.dart-code",
+        "bendixma.dart-data-class-generator",
+        "usernamehw.errorlens",
+        "dart-code.flutter",
+        "oderwat.indent-rainbow",
+        "flutterando.flutter-mobx"
+    ]
+}

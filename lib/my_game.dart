@@ -1,19 +1,22 @@
 import 'dart:math';
 
-import 'package:flame/anchor.dart';
 import 'package:flame/components/parallax_component.dart';
-import 'package:flame/components/text_component.dart';
 import 'package:flame/game.dart';
 import 'package:flame/gestures.dart';
-import 'package:flame/text_config.dart';
 import 'package:flutter/material.dart';
 import 'package:spacepewpew/components/bullet.dart';
 import 'package:spacepewpew/components/enemy.dart';
+import 'package:spacepewpew/components/game_over.dart';
+import 'package:spacepewpew/components/multiplier.dart';
+import 'package:spacepewpew/components/score.dart';
 import 'package:spacepewpew/components/ship.dart';
 import 'package:spacepewpew/main.dart';
 
 Enemy enemy;
 Ship ship = Ship();
+ScoreDisplay score;
+Multiplier multiplier;
+GameOver gameOverMessage;
 
 class MyGame extends BaseGame with TapDetector, HorizontalDragDetector {
   bool checkOnce = true;
@@ -24,32 +27,28 @@ class MyGame extends BaseGame with TapDetector, HorizontalDragDetector {
   Size dimensions;
 
   MyGame(this.dimensions) {
-    add(ParallaxComponent([ParallaxImage('background.png')]));
+    score = ScoreDisplay(this);
+    multiplier = Multiplier(this);
+    gameOverMessage = GameOver(this);
+
+    add(
+      ParallaxComponent(
+        [
+          ParallaxImage('background.png', repeat: ImageRepeat.repeat, alignment: Alignment.center),
+        ],
+        baseSpeed: Offset(0, -50),
+      ),
+    );
     add(ship);
   }
 
   @override
   void render(Canvas canvas) {
+    score.render(canvas);
+    multiplier.render(canvas);
+    gameOverMessage.render(canvas);
+
     super.render(canvas);
-
-    TextConfig config = TextConfig(color: Colors.white, fontSize: 48);
-
-    if (gameOver) {
-      add(TextComponent("Game Over", config: config)
-        ..anchor = Anchor.center
-        ..x = size.width / 2
-        ..y = size.height / 2);
-    } else {
-      add(TextComponent(points.toString(), config: config)
-        ..anchor = Anchor.bottomLeft
-        ..x = 10.0
-        ..y = size.height - 10);
-
-      add(TextComponent('x' + (1 + points / 100).toString(), config: config)
-        ..anchor = Anchor.bottomRight
-        ..x = size.width - 10
-        ..y = size.height - 10);
-    }
   }
 
   double creationTimer = 0.0;
@@ -78,12 +77,20 @@ class MyGame extends BaseGame with TapDetector, HorizontalDragDetector {
       }
     }
 
+    score.update(t);
+    multiplier.update(t);
+    gameOverMessage.update(t);
     super.update(t);
   }
 
   @override
   void onTapDown(TapDownDetails details) {
     startFiring(details.globalPosition);
+
+    if (gameOver) {
+      points = 0;
+      gameOver = false;
+    }
     super.onTapDown(details);
   }
 

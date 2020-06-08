@@ -15,7 +15,7 @@ class Bullet extends SpriteComponent {
 
   @override
   void update(double t) {
-    double multiplier = points / 100;
+    double multiplier = points / 33;
     y -= gameOver ? 0 : t * BULLETSPEED * (1 + multiplier);
 
     Enemy hitEnemy;
